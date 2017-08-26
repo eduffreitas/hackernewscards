@@ -1,5 +1,6 @@
 import * as req from 'tiny_request';
 import * as express from 'express';
+import * as cheerio from 'cheerio';
 import { appConfig } from './config/app_config';
 
 class App 
@@ -25,8 +26,20 @@ class App
     index = (req, res, next) => {
         console.log('starting');
         this.requestHackerNews((body) => {
-            res.send(body);
+            let $ = cheerio.load(body);
+            let links = [];
+
+            $('.storylink').each( function () {
+                var link = $(this).attr('href');
+                links.push(link);
+             });
+
+            res.json(links);
         });  
+     }
+
+     processView = (body, callback) => {
+        
      }
 
     requestHackerNews = (callback) => {
