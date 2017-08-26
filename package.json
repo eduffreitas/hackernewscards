@@ -1,0 +1,26 @@
+{
+  "name": "hackernewscards",
+  "version": "1.0.0",
+  "description": "Hacker News cards view",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduffreitas/hackernewscards.git"
+  },
+  "keywords": [
+    "hackernews",
+    "summary",
+    "cards"
+  ],
+  "author": "Eduardo de Freitas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eduffreitas/hackernewscards/issues"
+  },
+  "homepage": "https://github.com/eduffreitas/hackernewscards#readme",
+  "devDependencies": {}
+}

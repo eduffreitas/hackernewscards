@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# ignoring map
+*.js.map
+
+# ignoring js
+*.js
