@@ -2,6 +2,7 @@ import * as req from 'tiny_request';
 import * as express from 'express';
 import * as cheerio from 'cheerio';
 import { appConfig } from './config/app_config';
+import * as crypto from 'crypto';
 
 class App 
 {
@@ -24,26 +25,29 @@ class App
     }
 
     index = (req, res, next) => {
-        console.log('starting');
-        this.requestHackerNews((body) => {
+        let page: number = 1;
+
+        if (req.query.page) {
+            page = req.query.page;
+        }
+
+        this.requestHackerNews(page, (body) => {
             let $ = cheerio.load(body);
             let links = [];
 
-            $('.storylink').each( function () {
+            $('.storylink').each(function () {
                 var link = $(this).attr('href');
                 links.push(link);
              });
+
+             console.log(this.context.crypto.createHash('md5').update(JSON.stringify(links)).digest("hex"));
 
             res.json(links);
         });  
      }
 
-     processView = (body, callback) => {
-        
-     }
-
-    requestHackerNews = (callback) => {
-        this.context.req.get('https://news.ycombinator.com', function(body, response, err) {
+    requestHackerNews = (page: number, callback) => {
+        this.context.req.get(`https://news.ycombinator.com/news?page=${page}`, function(body, response, err) {
             if (!err && response.statusCode == 200) {
                 callback(body) 
             } 
@@ -57,6 +61,7 @@ let context = {
     req: req, 
     app: express_app,
     config: appConfig,
+    crypto: crypto
 };
 
 const app = new App(context);
